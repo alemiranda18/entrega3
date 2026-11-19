@@ -1,0 +1,8 @@
+Pre-entrega Módulo 2 : Mocking y carga de datos
+Crear un módulo de mocking para ShipNow API que permita generar usuarios, repartidores, pedidos y entregas de prueba.
+
+El proyecto debe incluir un router /api/mocks con endpoints para devolver datos simulados y para insertar registros de prueba en MongoDB.
+
+La implementación debe respetar la arquitectura por capas trabajada en el módulo anterior. Los datos generados deben respetar los modelos reales del proyecto, mantener relaciones básicas entre entidades y usar las constantes definidas para roles, estados y prioridades.
+
+Entregar link al repositorio de GitHub sin node_modules, incluyendo un README con instrucciones para probar los endpoints de mocks.

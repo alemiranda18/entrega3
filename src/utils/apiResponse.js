@@ -1,0 +1,35 @@
+import { ERROR_CODES, ERROR_DICTIONARY } from "./errorDictionary.js";
+
+export const successResponse = (res, { statusCode = 200, message = "", payload }) => {
+    return res.status(statusCode).json({ status: "success", message, payload });
+}
+
+export const createError = (code, message, details) => {
+    //capturar el error desde el diccionario
+    const isInDictionary = code in ERROR_DICTIONARY;
+    const activeCode = isInDictionary ? code : ERROR_CODES.INTERNAL_SERVER_ERROR;
+    const configError = ERROR_DICTIONARY[activeCode];
+
+    //creamos el error
+    const error = new Error(message || configError.message);
+    error.statusCode = configError.statusCode;
+    error.code = activeCode;
+    error.details = details;
+
+    return error;
+}
+
+export const errorResponse = (res, error) => {
+    const statusCode = error.statusCode || ERROR_DICTIONARY[ERROR_CODES.INTERNAL_SERVER_ERROR].statusCode;
+    const message = error.message || ERROR_DICTIONARY[ERROR_CODES.INTERNAL_SERVER_ERROR].message;
+    const code = error.code || ERROR_CODES.INTERNAL_SERVER_ERROR;
+
+    return res.status(statusCode).json({
+        status: "error",
+        error: {
+            code,
+            message,
+            ...(error.details ? { details: error.details } : {})
+        }
+    });
+}
